@@ -1,0 +1,36 @@
+import discord, os, dotenv, datetime, random, asyncio
+from dotenv import load_dotenv
+from discord.ext import commands 
+
+load_dotenv() ### loads the .env file containing the token
+client = discord.Bot()
+
+@client.event ### shows if rosabot is connected 
+async def on_ready(): ### if this doesn't print then there is an error
+    print(f'{client.user} has connected to Discord!')
+
+### list of commands 
+@client.slash_command(name="rosa", description = "rosa", 
+guild_ids=[971377621181009960])
+async def rosa(ctx):
+    await ctx.response.send_message("rosa")
+@client.slash_command(name='trans', description= 'trans rights!!!',
+guild_ids=[971377621181009960])
+async def trans(ctx):
+    await ctx.response.send_message(
+        ':transgender_flag: :transgender_flag: :transgender_flag:')
+@client.slash_command(name="rosadaily", descripton= 'sends rosa daily')
+async def schedule_daily_message(ctx):
+	await ctx.response.send_message('rosa set')
+	while True:
+		now = datetime.datetime.now()
+		then = now+datetime.timedelta(days=1)
+		#then = now.replace(hour=10, minute=6) ### for testing
+		wait_time = (then-now).total_seconds()
+		await asyncio.sleep(wait_time)
+		await ctx.send('rosa')
+		break
+@client
+
+if __name__ == '__main__': ### gets the discord token and runs it
+    client.run(os.getenv("BOT_TOKEN"))
