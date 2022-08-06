@@ -30,7 +30,6 @@ async def schedule_daily_message(ctx):
 		await asyncio.sleep(wait_time)
 		await ctx.send('rosa')
 		break
-@client
 
 if __name__ == '__main__': ### gets the discord token and runs it
     client.run(os.getenv("BOT_TOKEN"))
