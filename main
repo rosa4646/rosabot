@@ -19,7 +19,8 @@ guild_ids=[971377621181009960])
 async def trans(ctx):
     await ctx.response.send_message(
         ':transgender_flag: :transgender_flag: :transgender_flag:')
-@client.slash_command(name="rosadaily", descripton= 'sends rosa daily')
+@client.slash_command(name="rosadaily", descripton= 'sends rosa daily',
+guild_ids=[971377621181009960])
 async def schedule_daily_message(ctx):
 	await ctx.response.send_message('rosa set')
 	while True:
