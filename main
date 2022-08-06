@@ -1,4 +1,4 @@
-import discord, os, dotenv, datetime, random, asyncio
+import discord, os, dotenv, datetime, asyncio
 from dotenv import load_dotenv
 from discord.ext import commands 
 
