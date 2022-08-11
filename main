@@ -12,17 +12,18 @@ async def on_ready(): ### if this doesn't print then there is an error
     print(f'{client.user} has connected to Discord!')
 
 ### list of commands 
-@client.slash_command(name="rosa", description="rosa", 
-guild_ids=[971377621181009960])
+@client.slash_command(name="rosa",
+description="rosa")
 async def rosa(ctx):
     await ctx.response.send_message("rosa")
-@client.slash_command(name='trans', description='trans rights!!!',
+@client.slash_command(name='trans',
+description='trans rights!!!',
 guild_ids=[971377621181009960])
 async def trans(ctx):
     await ctx.response.send_message(
-        ':transgender_flag: :transgender_flag: :transgender_flag:')
-@client.slash_command(name="rosa_daily", descripton='sends rosa daily',
-guild_ids=[971377621181009960])
+    ':transgender_flag: :transgender_flag: :transgender_flag:')
+@client.slash_command(name="rosa_daily",
+descripton='sends rosa daily')
 async def schedule_daily_message(ctx):
 	await ctx.response.send_message('rosa set')
 	while True:
@@ -33,33 +34,35 @@ async def schedule_daily_message(ctx):
 		await asyncio.sleep(wait_time)
 		await ctx.send('rosa')
 		break
-@client.slash_command(name='rosa_git', description='provides a link to rosabot\'s git',
-guild_ids=[971377621181009960])
+@client.slash_command(name='rosa_git',
+description='provides a link to rosabot\'s git')
 async def git(ctx):
 	await ctx.response.send_message("rosa")
 	git_link = Button(label='github', style=ButtonStyle.link, 
 	url='https://github.com/rosa4646/rosabot')
 	myview = View(timeout=180)
 	myview.add_item(git_link)
-@client.slash_command(name='user', description='gives stats and data for a user',
-guild_ids=[971377621181009960])
+@client.slash_command(name='user',
+description='gives stats and data for a user')
 async def Profile(ctx, user: Member=None):
+	await ctx.response.send_message("rosa")
 	if user == None:
 		user = ctx.author
 	inline = True
 	embed=Embed(title=user.name+'#'+user.discriminator, color=0x0080ff)
 	userData = {
 		'Mention' : user.mention,
-		'Nickname' : user.nick,
+		'Username': user.display_name,
 		'Created at' : user.created_at.strftime('%b %d, %Y, %T'),
 		'Joined at' : user.joined_at.strftime('%b %d, %Y, %T'),
 		'Server' : user.guild,
 		'Top Role' : user.top_role
 	}
 	for [fieldName, fieldVal] in userData.items():
-		embed.add_field(name=fieldName+';', value=fieldVal)
+		embed.add_field(name=fieldName+':', value=fieldVal, inline=inline)
 	embed.set_footer(text=f'id: {user.id}')
+	embed.set_thumbnail(url=user.display_avatar)
 	await ctx.send(embed=embed)
-	
+
 if __name__ == '__main__': ### gets the discord token and runs it
     client.run(os.getenv("BOT_TOKEN"))
