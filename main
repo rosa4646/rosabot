@@ -1,11 +1,11 @@
-import discord, os, datetime, asyncio
+import os, datetime, asyncio
 from dotenv import load_dotenv
 from discord.ext import commands 
-from discord import ButtonStyle, Member, Embed, Interaction
+from discord import ButtonStyle, Member, Embed, Interaction, SelectOption
 from discord.ui import Button, View
 
 load_dotenv() ### loads the .env file containing the token
-client = discord.Bot()
+client = commands.Bot()
 
 @client.event ### shows if rosabot is connected 
 async def on_ready(): ### if this doesn't print then there is an error
@@ -58,10 +58,26 @@ async def Profile(ctx, user: Member=None):
 		'Server' : user.guild,
 		'Top Role' : user.top_role
 	}
-	for [fieldName, fieldVal] in userData.items():
-		embed.add_field(name=fieldName+':', value=fieldVal, inline=inline)
+	for [field_name, field_val] in userData.items():
+		embed.add_field(name=field_name+':', value=field_val, inline=inline)
 	embed.set_footer(text=f'id: {user.id}')
 	embed.set_thumbnail(url=user.display_avatar)
+	await ctx.send(embed=embed)
+@client.slash_command(name='server', description='displays stats of the server')
+async def server(ctx):
+	await ctx.response.send_message("rosa")
+	guild = ctx.author.guild
+	embed=Embed(title=guild.name, color=0x0080ff)
+	server_data = {
+		'Owner' : guild.owner.mention,
+		'Channels' : len(guild.channels),
+		'Members' : guild.member_count,
+		'Created at' : guild.created_at.strftime('%b %d, %Y, %T')
+	}
+	for [field_name, field_val] in server_data.items():
+		embed.add_field(name=field_name+':', value=field_val, inline=True)
+	embed.set_footer(text=f'id: {guild.id}')
+	embed.set_thumbnail(url=guild.icon)
 	await ctx.send(embed=embed)
 
 if __name__ == '__main__': ### gets the discord token and runs it
