@@ -1,4 +1,6 @@
-import os, datetime, asyncio
+import os, datetime, asyncio, requests, random
+from bs4.element import TemplateString
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from discord.ext import commands 
 from discord import ButtonStyle, Member, Embed, Interaction, SelectOption
@@ -63,7 +65,8 @@ async def Profile(ctx, user: Member=None):
 	embed.set_footer(text=f'id: {user.id}')
 	embed.set_thumbnail(url=user.display_avatar)
 	await ctx.send(embed=embed)
-@client.slash_command(name='server', description='displays stats of the server')
+@client.slash_command(name='server',
+description='displays stats of the server')
 async def server(ctx):
 	await ctx.response.send_message("rosa")
 	guild = ctx.author.guild
@@ -79,6 +82,29 @@ async def server(ctx):
 	embed.set_footer(text=f'id: {guild.id}')
 	embed.set_thumbnail(url=guild.icon)
 	await ctx.send(embed=embed)
-
+@client.slash_command(name='google',
+description='displays the most googled thing as of today')
+async def google(ctx):
+	url = f"https://trends.google.com/trends/trendingsearches/daily?geo=US"
+	req = requests.get(url)
+	soup = BeautifulSoup(req.text, "lxml")
+	most_googled = soup.find('span', attrs={"title": "titlePart in titleArray"})
+	searches =  soup.find('div', attrs={"class": "search-count-title"})
+	message = (f'the most googled thing is {most_googled} with {searches}')
+	await ctx.response.send_message(message) 
+	print(requests.get(url).text)
+@client.slash_command(name='cat',
+description='displays the cat')
+async def cat(ctx):
+	images = [
+		'https://media.discordapp.net/attachments/756726989439893584/1009570778355859466/20220817_171143.jpg?width=349&height=465',
+		'https://media.discordapp.net/attachments/979044087640510496/1010220300077641888/20220816_140937.jpg?width=349&height=465',
+		'https://cdn.discordapp.com/attachments/979044087640510496/1010220357527027722/20220814_105435.jpg',
+		'https://media.discordapp.net/attachments/979044087640510496/1010220392293601340/20220813_135352.jpg?width=349&height=465',
+		'https://media.discordapp.net/attachments/979044087640510496/1010220452003721397/20220811_101043.jpg?width=349&height=465'
+	]
+	response = random.choice(images)
+	await ctx.response.send_message(response)
+	
 if __name__ == '__main__': ### gets the discord token and runs it
     client.run(os.getenv("BOT_TOKEN"))
