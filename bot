@@ -19,8 +19,7 @@ description="rosa")
 async def rosa(ctx):
     await ctx.response.send_message("rosa")
 @client.slash_command(name='trans',
-description='trans rights!!!',
-guild_ids=[971377621181009960])
+description='trans rights!!!',)
 async def trans(ctx):
     await ctx.response.send_message(
     ':transgender_flag: :transgender_flag: :transgender_flag:')
